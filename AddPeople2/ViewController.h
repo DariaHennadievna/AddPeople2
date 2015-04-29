@@ -7,8 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ContactCell.h"
+#import "AddPeopleCell.h"
+#import "AddPeopleViewController.h"
+#import "Contact.h"
+#import "AppDelegate.h"
+#import "PhoneNumbersVC.h"
 
 @interface ViewController : UIViewController
+
+-(NSMutableArray *) loadFromUserDefaults;
+-(void) deleteContactFromContactsListAtIndex:(NSInteger)index;
+
+-(void)showAddPeopleViewController;
+-(void)showPhoneNumbersVC;
 
 
 @end

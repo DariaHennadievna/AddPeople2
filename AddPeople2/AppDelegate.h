@@ -7,10 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Contact.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+#pragma mark - Contacts
+
+- (NSArray *)currentContact;
+-(void)setCurrentContact:(NSArray *)contacts;
+
+#pragma mark - Phone Numbers
+
+-(NSArray *)phoneNumbersForKey:(NSString *)key;
+-(void)setPhoneNumbers:(NSArray *)phoneNumbers ForKey: (NSString *)key;
+
 
 
 @end

@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		840767271AEACB2000F273F7 /* PhoneNumbersVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 840767261AEACB2000F273F7 /* PhoneNumbersVC.m */; };
+		8407672A1AEACC1A00F273F7 /* PhoneNumbersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 840767291AEACC1A00F273F7 /* PhoneNumbersCell.m */; };
+		840767301AEAEC3000F273F7 /* AddPhoneNumberVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8407672F1AEAEC3000F273F7 /* AddPhoneNumberVC.m */; };
+		8458061C1AE531B900D64134 /* AddPeopleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8458061B1AE531B900D64134 /* AddPeopleCell.m */; };
+		845806201AE56CF900D64134 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 8458061F1AE56CF900D64134 /* Contact.m */; };
 		847F1A8C1AE3D5B9008F969F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 847F1A8B1AE3D5B9008F969F /* main.m */; };
 		847F1A8F1AE3D5B9008F969F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 847F1A8E1AE3D5B9008F969F /* AppDelegate.m */; };
 		847F1A921AE3D5B9008F969F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847F1A911AE3D5B9008F969F /* ViewController.m */; };
 		847F1A951AE3D5B9008F969F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 847F1A931AE3D5B9008F969F /* Main.storyboard */; };
 		847F1A971AE3D5B9008F969F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847F1A961AE3D5B9008F969F /* Images.xcassets */; };
 		847F1AA31AE3D5B9008F969F /* AddPeople2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 847F1AA21AE3D5B9008F969F /* AddPeople2Tests.m */; };
+		847F1AB01AE3D62C008F969F /* AddPeopleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847F1AAF1AE3D62C008F969F /* AddPeopleViewController.m */; };
+		847F1AB31AE3DE73008F969F /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 847F1AB21AE3DE73008F969F /* ContactCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +33,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		840767251AEACB2000F273F7 /* PhoneNumbersVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneNumbersVC.h; sourceTree = "<group>"; };
+		840767261AEACB2000F273F7 /* PhoneNumbersVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneNumbersVC.m; sourceTree = "<group>"; };
+		840767281AEACC1A00F273F7 /* PhoneNumbersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneNumbersCell.h; sourceTree = "<group>"; };
+		840767291AEACC1A00F273F7 /* PhoneNumbersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneNumbersCell.m; sourceTree = "<group>"; };
+		8407672E1AEAEC3000F273F7 /* AddPhoneNumberVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPhoneNumberVC.h; sourceTree = "<group>"; };
+		8407672F1AEAEC3000F273F7 /* AddPhoneNumberVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPhoneNumberVC.m; sourceTree = "<group>"; };
+		8458061A1AE531B900D64134 /* AddPeopleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPeopleCell.h; sourceTree = "<group>"; };
+		8458061B1AE531B900D64134 /* AddPeopleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPeopleCell.m; sourceTree = "<group>"; };
+		8458061E1AE56CF900D64134 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
+		8458061F1AE56CF900D64134 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
 		847F1A861AE3D5B9008F969F /* AddPeople2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AddPeople2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847F1A8A1AE3D5B9008F969F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		847F1A8B1AE3D5B9008F969F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -38,6 +55,10 @@
 		847F1A9C1AE3D5B9008F969F /* AddPeople2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AddPeople2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		847F1AA11AE3D5B9008F969F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		847F1AA21AE3D5B9008F969F /* AddPeople2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddPeople2Tests.m; sourceTree = "<group>"; };
+		847F1AAE1AE3D62C008F969F /* AddPeopleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPeopleViewController.h; sourceTree = "<group>"; };
+		847F1AAF1AE3D62C008F969F /* AddPeopleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPeopleViewController.m; sourceTree = "<group>"; };
+		847F1AB11AE3DE73008F969F /* ContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactCell.h; sourceTree = "<group>"; };
+		847F1AB21AE3DE73008F969F /* ContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +79,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8458061D1AE56C8300D64134 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8458061E1AE56CF900D64134 /* Contact.h */,
+				8458061F1AE56CF900D64134 /* Contact.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		847F1A7D1AE3D5B9008F969F = {
 			isa = PBXGroup;
 			children = (
@@ -79,10 +109,10 @@
 		847F1A881AE3D5B9008F969F /* AddPeople2 */ = {
 			isa = PBXGroup;
 			children = (
-				847F1A8D1AE3D5B9008F969F /* AppDelegate.h */,
-				847F1A8E1AE3D5B9008F969F /* AppDelegate.m */,
-				847F1A901AE3D5B9008F969F /* ViewController.h */,
-				847F1A911AE3D5B9008F969F /* ViewController.m */,
+				8458061D1AE56C8300D64134 /* Model */,
+				847F1AB41AE3DE7A008F969F /* Views */,
+				847F1AAD1AE3D5D2008F969F /* VCs */,
+				847F1AAC1AE3D5C1008F969F /* AppDelegate */,
 				847F1A931AE3D5B9008F969F /* Main.storyboard */,
 				847F1A961AE3D5B9008F969F /* Images.xcassets */,
 				847F1A891AE3D5B9008F969F /* Supporting Files */,
@@ -114,6 +144,43 @@
 				847F1AA11AE3D5B9008F969F /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		847F1AAC1AE3D5C1008F969F /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				847F1A8D1AE3D5B9008F969F /* AppDelegate.h */,
+				847F1A8E1AE3D5B9008F969F /* AppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		847F1AAD1AE3D5D2008F969F /* VCs */ = {
+			isa = PBXGroup;
+			children = (
+				847F1A901AE3D5B9008F969F /* ViewController.h */,
+				847F1A911AE3D5B9008F969F /* ViewController.m */,
+				847F1AAE1AE3D62C008F969F /* AddPeopleViewController.h */,
+				847F1AAF1AE3D62C008F969F /* AddPeopleViewController.m */,
+				840767251AEACB2000F273F7 /* PhoneNumbersVC.h */,
+				840767261AEACB2000F273F7 /* PhoneNumbersVC.m */,
+				8407672E1AEAEC3000F273F7 /* AddPhoneNumberVC.h */,
+				8407672F1AEAEC3000F273F7 /* AddPhoneNumberVC.m */,
+			);
+			name = VCs;
+			sourceTree = "<group>";
+		};
+		847F1AB41AE3DE7A008F969F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				847F1AB11AE3DE73008F969F /* ContactCell.h */,
+				847F1AB21AE3DE73008F969F /* ContactCell.m */,
+				8458061A1AE531B900D64134 /* AddPeopleCell.h */,
+				8458061B1AE531B900D64134 /* AddPeopleCell.m */,
+				840767281AEACC1A00F273F7 /* PhoneNumbersCell.h */,
+				840767291AEACC1A00F273F7 /* PhoneNumbersCell.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,7 +282,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				847F1AB31AE3DE73008F969F /* ContactCell.m in Sources */,
 				847F1A921AE3D5B9008F969F /* ViewController.m in Sources */,
+				840767271AEACB2000F273F7 /* PhoneNumbersVC.m in Sources */,
+				8407672A1AEACC1A00F273F7 /* PhoneNumbersCell.m in Sources */,
+				840767301AEAEC3000F273F7 /* AddPhoneNumberVC.m in Sources */,
+				8458061C1AE531B900D64134 /* AddPeopleCell.m in Sources */,
+				847F1AB01AE3D62C008F969F /* AddPeopleViewController.m in Sources */,
+				845806201AE56CF900D64134 /* Contact.m in Sources */,
 				847F1A8F1AE3D5B9008F969F /* AppDelegate.m in Sources */,
 				847F1A8C1AE3D5B9008F969F /* main.m in Sources */,
 			);
@@ -402,6 +476,7 @@
 				847F1AA81AE3D5B9008F969F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		847F1AA91AE3D5B9008F969F /* Build configuration list for PBXNativeTarget "AddPeople2Tests" */ = {
 			isa = XCConfigurationList;
@@ -410,6 +485,7 @@
 				847F1AAB1AE3D5B9008F969F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

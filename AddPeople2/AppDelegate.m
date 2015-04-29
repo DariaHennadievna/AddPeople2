@@ -8,7 +8,10 @@
 
 #import "AppDelegate.h"
 
+NSString *const DefaultContactsKey = @"DefaultContactsKey";
+
 @interface AppDelegate ()
+
 
 @end
 
@@ -20,26 +23,58 @@
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+#pragma mark - Contacts
+
+- (NSArray *)currentContact
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];    
+    NSArray *myContacts = [userDefaults objectForKey:DefaultContactsKey];
+    
+    return myContacts;
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+-(void)setCurrentContact:(NSArray *)contacts
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:contacts forKey:DefaultContactsKey];
+    [userDefaults synchronize];
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+#pragma mark - Phone Numbers
+
+-(NSArray *)phoneNumbersForKey:(NSString *)key
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *myNumbers = [userDefaults objectForKey:key];
+    
+    return myNumbers;
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+-(void)setPhoneNumbers:(NSArray *)phoneNumbers ForKey: (NSString *)key
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:phoneNumbers forKey:key];
+    [userDefaults synchronize];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+/*
+- (void)setCurrentContact:(Contact *)newContact
+{
+    NSLog(@"new contact = %@, %@", newContact.name, newContact.age);
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSData *userData = [NSKeyedArchiver archivedDataWithRootObject: newContact];
+    
+    [userDefaults setObject:userData forKey:DefaultContactsKey];
+    
+    [userDefaults synchronize];
+    
+    NSLog(@"self.array = [%@]", userDefaults);
 }
+*/
+
+
+
+
 
 @end
