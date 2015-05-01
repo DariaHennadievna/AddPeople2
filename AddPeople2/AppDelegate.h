@@ -7,11 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 #import "Contact.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+
+#pragma mark - Core Data stack
+
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+- (void)saveContext;
+- (NSURL *)applicationDocumentsDirectory;
 
 #pragma mark - Contacts
 
@@ -22,7 +33,6 @@
 
 -(NSArray *)phoneNumbersForKey:(NSString *)key;
 -(void)setPhoneNumbers:(NSArray *)phoneNumbers ForKey: (NSString *)key;
-
 
 
 @end

@@ -10,6 +10,8 @@
 
 @interface AddPeopleViewController ()
 
+@property NSArray *myContacts;
+
 @end
 
 @implementation AddPeopleViewController
@@ -17,6 +19,24 @@
 -(void)showViewController
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Save in the Core Data stack
+
+-(void)saveNewContact:(Contact *)myContact
+{
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+
+    [MyContact contactInitWithName:myContact.name age:myContact.age ];    
+    
+    NSError *error = nil;
+    if (![context save:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
 }
 
 #pragma mark - Save To NSUserDefaults
@@ -41,7 +61,9 @@
     contact.name = self.addNameLabel.text;
     contact.age = self.addAgeLabel.text;
     
-    [self saveContactToUserDefaults:contact];
+    //[self saveContactToUserDefaults:contact];
+    [self saveNewContact:contact];
+
 }
 
 #pragma mark - Views

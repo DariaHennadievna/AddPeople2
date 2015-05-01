@@ -12,6 +12,9 @@
 		840767301AEAEC3000F273F7 /* AddPhoneNumberVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8407672F1AEAEC3000F273F7 /* AddPhoneNumberVC.m */; };
 		8458061C1AE531B900D64134 /* AddPeopleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8458061B1AE531B900D64134 /* AddPeopleCell.m */; };
 		845806201AE56CF900D64134 /* Contact.m in Sources */ = {isa = PBXBuildFile; fileRef = 8458061F1AE56CF900D64134 /* Contact.m */; };
+		846563831AF1538900A8286E /* AddPeople2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 846563811AF1538900A8286E /* AddPeople2.xcdatamodeld */; };
+		846563941AF15E9500A8286E /* MyContact+Creating.m in Sources */ = {isa = PBXBuildFile; fileRef = 846563931AF15E9500A8286E /* MyContact+Creating.m */; };
+		846563971AF1679500A8286E /* MyContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 846563961AF1679500A8286E /* MyContact.m */; };
 		847F1A8C1AE3D5B9008F969F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 847F1A8B1AE3D5B9008F969F /* main.m */; };
 		847F1A8F1AE3D5B9008F969F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 847F1A8E1AE3D5B9008F969F /* AppDelegate.m */; };
 		847F1A921AE3D5B9008F969F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847F1A911AE3D5B9008F969F /* ViewController.m */; };
@@ -43,6 +46,12 @@
 		8458061B1AE531B900D64134 /* AddPeopleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPeopleCell.m; sourceTree = "<group>"; };
 		8458061E1AE56CF900D64134 /* Contact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contact.h; sourceTree = "<group>"; };
 		8458061F1AE56CF900D64134 /* Contact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Contact.m; sourceTree = "<group>"; };
+		846563821AF1538900A8286E /* AddPeople2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AddPeople2.xcdatamodel; sourceTree = "<group>"; };
+		846563851AF159F600A8286E /* AddPeople2-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AddPeople2-Bridging-Header.h"; sourceTree = "<group>"; };
+		846563921AF15E9500A8286E /* MyContact+Creating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyContact+Creating.h"; sourceTree = "<group>"; };
+		846563931AF15E9500A8286E /* MyContact+Creating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MyContact+Creating.m"; sourceTree = "<group>"; };
+		846563951AF1679500A8286E /* MyContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContact.h; sourceTree = "<group>"; };
+		846563961AF1679500A8286E /* MyContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyContact.m; sourceTree = "<group>"; };
 		847F1A861AE3D5B9008F969F /* AddPeople2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AddPeople2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		847F1A8A1AE3D5B9008F969F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		847F1A8B1AE3D5B9008F969F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -88,12 +97,24 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		846563841AF156A500A8286E /* DBModel */ = {
+			isa = PBXGroup;
+			children = (
+				846563951AF1679500A8286E /* MyContact.h */,
+				846563961AF1679500A8286E /* MyContact.m */,
+				846563921AF15E9500A8286E /* MyContact+Creating.h */,
+				846563931AF15E9500A8286E /* MyContact+Creating.m */,
+			);
+			name = DBModel;
+			sourceTree = "<group>";
+		};
 		847F1A7D1AE3D5B9008F969F = {
 			isa = PBXGroup;
 			children = (
 				847F1A881AE3D5B9008F969F /* AddPeople2 */,
 				847F1A9F1AE3D5B9008F969F /* AddPeople2Tests */,
 				847F1A871AE3D5B9008F969F /* Products */,
+				846563851AF159F600A8286E /* AddPeople2-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +130,7 @@
 		847F1A881AE3D5B9008F969F /* AddPeople2 */ = {
 			isa = PBXGroup;
 			children = (
+				846563841AF156A500A8286E /* DBModel */,
 				8458061D1AE56C8300D64134 /* Model */,
 				847F1AB41AE3DE7A008F969F /* Views */,
 				847F1AAD1AE3D5D2008F969F /* VCs */,
@@ -116,6 +138,7 @@
 				847F1A931AE3D5B9008F969F /* Main.storyboard */,
 				847F1A961AE3D5B9008F969F /* Images.xcassets */,
 				847F1A891AE3D5B9008F969F /* Supporting Files */,
+				846563811AF1538900A8286E /* AddPeople2.xcdatamodeld */,
 			);
 			path = AddPeople2;
 			sourceTree = "<group>";
@@ -285,10 +308,13 @@
 				847F1AB31AE3DE73008F969F /* ContactCell.m in Sources */,
 				847F1A921AE3D5B9008F969F /* ViewController.m in Sources */,
 				840767271AEACB2000F273F7 /* PhoneNumbersVC.m in Sources */,
+				846563971AF1679500A8286E /* MyContact.m in Sources */,
 				8407672A1AEACC1A00F273F7 /* PhoneNumbersCell.m in Sources */,
 				840767301AEAEC3000F273F7 /* AddPhoneNumberVC.m in Sources */,
 				8458061C1AE531B900D64134 /* AddPeopleCell.m in Sources */,
+				846563831AF1538900A8286E /* AddPeople2.xcdatamodeld in Sources */,
 				847F1AB01AE3D62C008F969F /* AddPeopleViewController.m in Sources */,
+				846563941AF15E9500A8286E /* MyContact+Creating.m in Sources */,
 				845806201AE56CF900D64134 /* Contact.m in Sources */,
 				847F1A8F1AE3D5B9008F969F /* AppDelegate.m in Sources */,
 				847F1A8C1AE3D5B9008F969F /* main.m in Sources */,
@@ -406,9 +432,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = AddPeople2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "AddPeople2-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -417,9 +446,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = AddPeople2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "AddPeople2-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -488,6 +519,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		846563811AF1538900A8286E /* AddPeople2.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				846563821AF1538900A8286E /* AddPeople2.xcdatamodel */,
+			);
+			currentVersion = 846563821AF1538900A8286E /* AddPeople2.xcdatamodel */;
+			path = AddPeople2.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 847F1A7E1AE3D5B9008F969F /* Project object */;
 }

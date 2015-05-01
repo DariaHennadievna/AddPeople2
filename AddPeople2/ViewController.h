@@ -7,14 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 #import "ContactCell.h"
 #import "AddPeopleCell.h"
 #import "AddPeopleViewController.h"
 #import "Contact.h"
 #import "AppDelegate.h"
 #import "PhoneNumbersVC.h"
+#import "MyContact+Creating.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<NSFetchedResultsControllerDelegate>
 
 -(NSMutableArray *) loadFromUserDefaults;
 -(void) deleteContactFromContactsListAtIndex:(NSInteger)index;
@@ -22,6 +24,7 @@
 -(void)showAddPeopleViewController;
 -(void)showPhoneNumbersVC;
 
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @end
 

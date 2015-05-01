@@ -15,6 +15,8 @@
 @property (nonatomic) AppDelegate *appDelegate;
 @property (nonatomic) NSString *nameOfContact;
 
+@property NSArray *contacts;
+
 @end
 
 @implementation ViewController
@@ -57,35 +59,54 @@
     [self.navigationController pushViewController:phoneNumbersVC animated:YES];
 }
 
+#pragma mark - Load from the Core Data stack
+
+-(void)reload
+{
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([MyContact class])];
+    NSSortDescriptor *nameSort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    NSSortDescriptor *ageSort = [NSSortDescriptor sortDescriptorWithKey:@"age" ascending:YES];
+    request.sortDescriptors = @[nameSort, ageSort];
+    NSLog(@"request %@", request);
+    
+    // Вариант self.managedObjectContext не работает. По-этому беру тотже "context" что использовался при сохранении
+    NSArray *contacts = [context executeFetchRequest:request error:nil];
+    self.contacts = contacts;
+    
+    //MyDebug...
+    NSLog(@"request %lu", self.contacts.count);
+    for(MyContact *myContact in self.contacts)
+    {
+        NSInteger index = [self.contacts indexOfObject:myContact];
+        NSLog(@"# %li contact: name = %@, age = %@",index, myContact.name, myContact.age);
+    }
+}
 
 #pragma mark - Load From NSUserDefaults
 
 -(NSMutableArray *) loadFromUserDefaults
 {
     self.array = [self.appDelegate currentContact];
-   
-        NSMutableArray *contacts = [[NSMutableArray alloc] init];
-        
-        for (int i = 0; i<self.array.count; i++)
-        {
-            NSData *mycon = self.array[i];
-            Contact *contact = [NSKeyedUnarchiver unarchiveObjectWithData:mycon];
-            [contacts addObject:contact];
-        }
-    return contacts;   
+    NSMutableArray *contacts = [[NSMutableArray alloc] init];
+    for (int i = 0; i<self.array.count; i++)
+    {
+        NSData *mycon = self.array[i];
+        Contact *contact = [NSKeyedUnarchiver unarchiveObjectWithData:mycon];
+        [contacts addObject:contact];
+    }
+    return contacts;
 }
 
 
 -(void) deleteContactFromContactsListAtIndex:(NSInteger)index
 {
     self.array = [self.appDelegate currentContact];
-    
     NSMutableArray *contacts = [[NSMutableArray alloc] init];
-    
     contacts = [self.array mutableCopy];
-    
     [contacts removeObjectAtIndex:index];
-    
     [self.appDelegate setCurrentContact:[contacts copy]];
 }
 
@@ -103,15 +124,16 @@
    {
        return 1;
    }
-    NSMutableArray *myContacts = [self loadFromUserDefaults];
-    if(myContacts.count)
-    {
+
+   /* NSMutableArray *myContacts = [self loadFromUserDefaults];
+    if(myContacts.count){
         return myContacts.count;
     }
-    else
-    {
+    else{
         return 0;
-    }
+    }*/
+    
+    return self.contacts.count;
 }
 
 
@@ -120,32 +142,25 @@
 {
     if(indexPath.section == 0)
     {
-        /*UITableViewCell * addPeopleCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([UITableViewCell class]) forIndexPath:indexPath];
-        
-        UILabel *addPeopleLable = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f,
-                                                                            self.tableView.frame.size.width - 10.0f, 40.0f)];
-        addPeopleLable.textAlignment = NSTextAlignmentCenter;
-        addPeopleLable.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.3f];
-        addPeopleLable.text = @"Add new";
-        [addPeopleCell addSubview:addPeopleLable];*/
         
         AddPeopleCell *addPeopleCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AddPeopleCell class]) forIndexPath:indexPath];
-        
         addPeopleCell.addPeopleLabel.text = @"Add New";
-        
         return addPeopleCell;
     }
     else
     {
         ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ContactCell class]) forIndexPath:indexPath];
         
-        NSMutableArray *myContacts = [self loadFromUserDefaults];
-       
+        /*NSMutableArray *myContacts = [self loadFromUserDefaults];
         Contact *contact = myContacts[indexPath.row];
         cell.nameLabel.text = contact.name;
         cell.ageLabel.text = contact.age;
+        NSLog(@"for %ld name = %@", (long)indexPath.row, cell.nameLabel.text);*/
         
-        NSLog(@"for %ld name = %@", (long)indexPath.row, cell.nameLabel.text);
+        MyContact *myContact = self.contacts[indexPath.row];
+        cell.nameLabel.text = myContact.name;
+        cell.ageLabel.text = myContact.age;
+        
         
         return cell;
     }
@@ -170,8 +185,6 @@
     {
         ContactCell *myCell = (ContactCell *)[tableView cellForRowAtIndexPath:indexPath];
         self.nameOfContact = myCell.nameLabel.text;
-       // NSLog(@"nameOfContact = %@", self.nameOfContact);
-        
         [self performSegueWithIdentifier:@"ShowPhoneNumbersVC" sender:self];
     }
 
@@ -186,11 +199,17 @@
 {
     if( [segue.identifier isEqualToString:@"ShowPhoneNumbersVC"] )
     {
-        
         if([segue.destinationViewController isKindOfClass:[PhoneNumbersVC class]])
         {
             PhoneNumbersVC *phoneNumbersVC = (PhoneNumbersVC *)segue.destinationViewController;
-            phoneNumbersVC.title = self.nameOfContact;
+            if(!self.nameOfContact)
+            {
+                phoneNumbersVC.title = @"NoName";
+            }
+            else
+            {
+                phoneNumbersVC.title = self.nameOfContact;
+            }
         }
     }
 }
@@ -199,11 +218,9 @@
 {
     [super viewDidLoad];
     
-    //[self performSegueWithIdentifier:@"ShowPhoneNumbersVC" sender:self];
-    
-    self.title = @"People";    
-    
+    self.title = @"People";
     [self.view addSubview:self.tableView];
+    [self reload];
     
     // регистрируем клетку. Обязательно надо сделать!!!
     [self.tableView registerClass:[AddPeopleCell class]
@@ -214,15 +231,12 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    
-    /*NSMutableArray *myContacts = [self loadFromUserDefaults];
-    for(int i = 0; i<myContacts.count; i++)
-    {
-        Contact *con = myContacts[i];
-        NSLog(@"[%d] objact = %@; %@", i, con.name, con.age);
-        
-    }*/
-    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [self reload];
 }
 
 
