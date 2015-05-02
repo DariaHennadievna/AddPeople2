@@ -1,19 +1,18 @@
 //
-//  MyContact.m
+//  PhoneNumber.m
 //  AddPeople2
 //
 //  Created by Admin on 02.05.15.
 //  Copyright (c) 2015 Admin. All rights reserved.
 //
 
-#import "MyContact.h"
 #import "PhoneNumber.h"
+#import "MyContact.h"
 
 
-@implementation MyContact
+@implementation PhoneNumber
 
-@dynamic age;
-@dynamic name;
-@dynamic phoneNumbers;
+@dynamic number;
+@dynamic owner;
 
 @end

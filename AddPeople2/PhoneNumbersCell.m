@@ -35,8 +35,7 @@
     UILabel *numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 0.0f, 300.f, self.frame.size.height)];
     numberLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     numberLabel.textAlignment = NSTextAlignmentCenter;
-    self.phoneNumberLabel = numberLabel;
-    //self.phoneNumberLabel.backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.3];
+    self.phoneNumberLabel = numberLabel;    
     [self addSubview:self.phoneNumberLabel];    
 }
 

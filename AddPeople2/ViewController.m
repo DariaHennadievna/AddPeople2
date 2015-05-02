@@ -14,17 +14,13 @@
 @property (nonatomic) NSArray *array;
 @property (nonatomic) AppDelegate *appDelegate;
 @property (nonatomic) NSString *nameOfContact;
+@property (nonatomic) NSMutableArray *numbersForCurrentConact;
 
 @property NSArray *contacts;
 
 @end
 
 @implementation ViewController
-
-//UIGestureRecognizer
-//- (NSUInteger)numberOfTouches;
-
-//UIGestureRecognizer *gestureRecognized = [[UIGestureRecognizer alloc] initWithTarget:self.tableView action:@selector numberOfTouches]];
 
 
 -(UITableView *)tableView
@@ -59,30 +55,59 @@
     [self.navigationController pushViewController:phoneNumbersVC animated:YES];
 }
 
-#pragma mark - Load from the Core Data stack
+#pragma mark - Core Data stack
 
 -(void)reload
 {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSManagedObjectContext *context = appDelegate.managedObjectContext;
-    
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([MyContact class])];
-    NSSortDescriptor *nameSort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-    NSSortDescriptor *ageSort = [NSSortDescriptor sortDescriptorWithKey:@"age" ascending:YES];
-    request.sortDescriptors = @[nameSort, ageSort];
-    NSLog(@"request %@", request);
+    //NSSortDescriptor *nameSort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    //NSSortDescriptor *ageSort = [NSSortDescriptor sortDescriptorWithKey:@"age" ascending:YES];
+    //request.sortDescriptors = @[nameSort, ageSort];
+    //NSLog(@"request %@", request);
     
     // Вариант self.managedObjectContext не работает. По-этому беру тотже "context" что использовался при сохранении
     NSArray *contacts = [context executeFetchRequest:request error:nil];
     self.contacts = contacts;
     
     //MyDebug...
-    NSLog(@"request %lu", self.contacts.count);
+    /*NSLog(@"request %lu", self.contacts.count);
     for(MyContact *myContact in self.contacts)
     {
         NSInteger index = [self.contacts indexOfObject:myContact];
         NSLog(@"# %li contact: name = %@, age = %@",index, myContact.name, myContact.age);
+    }*/
+}
+
+-(MyContact *)gettingContactWithName:(NSString *)name age:(NSString *)age
+{
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([MyContact class])];
+    NSArray *allContacts = [context executeFetchRequest:request error:nil];
+    MyContact *myContact;
+    for (MyContact *contact in allContacts)
+    {
+        if ([contact.name isEqual:name] && [contact.age isEqual:age] )
+        {
+            myContact = contact;
+        }
     }
+    return myContact;
+}
+
+
+-(void)deleteContactWithName:(NSString *)name age:(NSString *)age
+{
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    MyContact *myContact = [self gettingContactWithName:name age:age];
+    [context deleteObject:myContact];
+    [appDelegate saveContext];
+    [self reload];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Load From NSUserDefaults
@@ -124,14 +149,6 @@
    {
        return 1;
    }
-
-   /* NSMutableArray *myContacts = [self loadFromUserDefaults];
-    if(myContacts.count){
-        return myContacts.count;
-    }
-    else{
-        return 0;
-    }*/
     
     return self.contacts.count;
 }
@@ -150,18 +167,9 @@
     else
     {
         ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([ContactCell class]) forIndexPath:indexPath];
-        
-        /*NSMutableArray *myContacts = [self loadFromUserDefaults];
-        Contact *contact = myContacts[indexPath.row];
-        cell.nameLabel.text = contact.name;
-        cell.ageLabel.text = contact.age;
-        NSLog(@"for %ld name = %@", (long)indexPath.row, cell.nameLabel.text);*/
-        
         MyContact *myContact = self.contacts[indexPath.row];
         cell.nameLabel.text = myContact.name;
         cell.ageLabel.text = myContact.age;
-        
-        
         return cell;
     }
 }
@@ -184,16 +192,47 @@
     if(indexPath.section == 1)
     {
         ContactCell *myCell = (ContactCell *)[tableView cellForRowAtIndexPath:indexPath];
-        self.nameOfContact = myCell.nameLabel.text;
-        [self performSegueWithIdentifier:@"ShowPhoneNumbersVC" sender:self];
+        if(myCell.accessoryType == UITableViewCellAccessoryCheckmark)
+        {
+            NSLog(@"UITableViewCellAccessoryCheckmark");
+            [self deleteContactWithName:myCell.nameLabel.text age:myCell.ageLabel.text];
+            myCell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        else
+        {
+            self.contactInList = [self gettingContactWithName:myCell.nameLabel.text age:myCell.ageLabel.text];
+            self.nameOfContact = self.contactInList.name;
+            [self performSegueWithIdentifier:@"ShowPhoneNumbersVC" sender:self];
+        }
     }
-
 }
 
 -(void)deselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+#pragma marc - Gesture Recognizer
+
+- (void)handleSwipeLeft:(UISwipeGestureRecognizer *)gestureRecognizer
+{
+    //Get location of the swipe
+    CGPoint location = [gestureRecognizer locationInView:self.tableView];
+    //Get the corresponding index path within the table view
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    //Check if index path is valid
+    if(indexPath)
+    {
+        //Get the cell out of the table view
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        //Update the cell or model
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        //cell.
+    }
+}
+
+
+#pragma marc - Segue
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -202,6 +241,8 @@
         if([segue.destinationViewController isKindOfClass:[PhoneNumbersVC class]])
         {
             PhoneNumbersVC *phoneNumbersVC = (PhoneNumbersVC *)segue.destinationViewController;
+            phoneNumbersVC.currentContact = self.contactInList;          
+            
             if(!self.nameOfContact)
             {
                 phoneNumbersVC.title = @"NoName";
@@ -231,12 +272,22 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    
+    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                action:@selector(handleSwipeLeft:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [self.tableView addGestureRecognizer:recognizer];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     [self reload];
+    
+    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                             action:@selector(handleSwipeLeft:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [self.tableView addGestureRecognizer:recognizer];
 }
 
 

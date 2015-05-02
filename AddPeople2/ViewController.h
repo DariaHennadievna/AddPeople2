@@ -18,13 +18,21 @@
 
 @interface ViewController : UIViewController<NSFetchedResultsControllerDelegate>
 
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic) MyContact *contactInList;
+
 -(NSMutableArray *) loadFromUserDefaults;
 -(void) deleteContactFromContactsListAtIndex:(NSInteger)index;
 
+#pragma mark - Show Controllers
 -(void)showAddPeopleViewController;
 -(void)showPhoneNumbersVC;
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+#pragma mark - Core Data
+-(void)reload;
+-(MyContact *)gettingContactWithName:(NSString *)name age:(NSString *)age;
+-(void)deleteContactWithName:(NSString *)name age:(NSString *)age;
+
 
 @end
 

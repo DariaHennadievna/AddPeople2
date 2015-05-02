@@ -25,10 +25,12 @@
 @property (strong, nonatomic) NSString *age;
 @property (strong, nonatomic) NSMutableArray *contacts;
 
-//for CoreData
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 -(void)saveContactToUserDefaults: (Contact *)newContact;
+
+#pragma mark - Core Data
+-(void)saveNewContact:(Contact *)myContact;
 
 
 @end

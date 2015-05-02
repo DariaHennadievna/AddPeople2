@@ -21,51 +21,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - Save in the Core Data stack
-
--(void)saveNewContact:(Contact *)myContact
-{
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    NSManagedObjectContext *context = appDelegate.managedObjectContext;
-
-    [MyContact contactInitWithName:myContact.name age:myContact.age ];    
-    
-    NSError *error = nil;
-    if (![context save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-}
-
-#pragma mark - Save To NSUserDefaults
-
--(void)saveContactToUserDefaults: (Contact *)newContact
-{
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    NSMutableArray *myContactList = [[appDelegate currentContact] mutableCopy];
-    NSData *userData = [NSKeyedArchiver archivedDataWithRootObject: newContact];
-    [myContactList addObject:userData];
-        
-    [appDelegate setCurrentContact:[myContactList copy]];
-}
-
-#pragma mark - Actions
-
-- (void)addButtonPressed:(id)sender
-{
-    NSLog(@"Cheeeeers!!!");
-    
-    Contact *contact = [Contact new];
-    contact.name = self.addNameLabel.text;
-    contact.age = self.addAgeLabel.text;
-    
-    //[self saveContactToUserDefaults:contact];
-    [self saveNewContact:contact];
-
-}
-
 #pragma mark - Views
 
 -(UITextField *)addNameLabel
@@ -107,35 +62,54 @@
     return _addButton;
 }
 
+#pragma mark - Save in the Core Data stack
+
+-(void)saveNewContact:(Contact *)myContact
+{
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    
+    [MyContact contactInitWithName:myContact.name age:myContact.age ];
+    
+    NSError *error = nil;
+    if (![context save:&error])
+    {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
+#pragma mark - Save To NSUserDefaults
+
+-(void)saveContactToUserDefaults: (Contact *)newContact
+{
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSMutableArray *myContactList = [[appDelegate currentContact] mutableCopy];
+    NSData *userData = [NSKeyedArchiver archivedDataWithRootObject: newContact];
+    [myContactList addObject:userData];
+    [appDelegate setCurrentContact:[myContactList copy]];
+}
+
+#pragma mark - Actions
+
+- (void)addButtonPressed:(id)sender
+{
+    //NSLog(@"Cheeeeers!!!");
+    Contact *contact = [Contact new];
+    contact.name = self.addNameLabel.text;
+    contact.age = self.addAgeLabel.text;
+    [self saveNewContact:contact];
+}
+
+
 #pragma mark - Text Field Delegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    //NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    /*
-    NSString *endString = @" ";
-    if([string isEqualToString:endString])
-    {
-        NSString *name = [newString substringToIndex:(newString.length - 1)];
-        
-        [textField resignFirstResponder];
-        textField.text = name;
-        
-        if([textField isEqual:self.addNameLabel])
-        {
-            self.name = textField.text;
-            NSLog(@"NAME is [%@]", self.name);
-        }
-        else if ([textField isEqual:self.addAgeLabel])
-        {
-            self.age = textField.text;
-            NSLog(@"NAME is [%@]", self.age);
-        }
-    }
-     */
+{    
     return YES;
 }
-
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {

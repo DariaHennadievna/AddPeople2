@@ -13,6 +13,7 @@
 @property (nonatomic) UITableView *phoneNumbersTableView;
 @property (nonatomic) NSArray *numbersFromUserDefaults;
 @property (nonatomic) AppDelegate *appDelegate;
+@property (nonatomic) MyContact *contact;
 
 - (IBAction)addNewPhoneNumber:(UIBarButtonItem *)sender;
 
@@ -20,11 +21,15 @@
 
 @implementation PhoneNumbersVC
 
+#pragma mark - Views
+
 -(UITableView *)phoneNumbersTableView
 {
     if(!_phoneNumbersTableView)
     {
         _phoneNumbersTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        _phoneNumbersTableView.dataSource = self;
+        _phoneNumbersTableView.delegate = self;
     }
     return _phoneNumbersTableView;
 }
@@ -38,28 +43,82 @@
     return _appDelegate;
 }
 
--(void) deleteNumberAtIndex:(NSInteger)index
+
+#pragma mark - Core Data
+
+-(MyContact *)gettingContactWithName:(NSString *)name age:(NSString *)age
 {
-    self.numbersFromUserDefaults = [self.appDelegate phoneNumbersForKey:self.title];
-    
-    NSMutableArray *myNumbers = [[NSMutableArray alloc] init];
-    
-    myNumbers = [self.numbersFromUserDefaults mutableCopy];
-    
-    [myNumbers removeObjectAtIndex:index];
-    
-    self.numbersFromUserDefaults = [myNumbers copy];
-    
-    [self.appDelegate setPhoneNumbers:self.numbersFromUserDefaults ForKey:self.title];    
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSManagedObjectContext *context = appDelegate.managedObjectContext;
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([MyContact class])];
+    NSArray *allContacts = [context executeFetchRequest:request error:nil];
+    MyContact *myContact;
+    for (MyContact *contact in allContacts)
+    {
+        if ([contact.name isEqual:name] && [contact.age isEqual:age] )
+        {
+            myContact = contact;
+        }
+    }
+    return myContact;
 }
 
 
-#pragma mark - Load Data
+-(NSMutableArray *)gettingPhoneNumbersOfContact:(MyContact *)myContact
+{
+    NSMutableArray *arrOfNumbers = [[NSMutableArray alloc] initWithCapacity:60];      
+    for (PhoneNumber *myNumber in myContact.phoneNumbers)
+    {
+        [arrOfNumbers addObject:myNumber];
+    }
+    return arrOfNumbers;
+}
+
+-(PhoneNumber *)gettingPhoneNumberWith:(NSString *)phoneNumber
+{
+    MyContact *myContact = [self gettingContactWithName:self.contact.name age:self.contact.age];
+    NSMutableArray *allNumbers = [self gettingPhoneNumbersOfContact:myContact];
+    PhoneNumber *currentNumber;
+    for (PhoneNumber *myNumber in allNumbers)
+    {
+        if([myNumber.number isEqual:phoneNumber])
+        {
+            currentNumber = myNumber;
+        }
+    }
+    return currentNumber;
+}
+
+
+-(void)deleteNumber:(NSString *)phoneNumber
+{
+    MyContact *myContact = [self gettingContactWithName:self.contact.name age:self.contact.age];
+    PhoneNumber *myNumber = [self gettingPhoneNumberWith:phoneNumber];
+    [myContact removePhoneNumbersObject:myNumber];
+    self.phoneNumbers = [self gettingPhoneNumbersOfContact:myContact];
+    
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate saveContext];    
+    [self.phoneNumbersTableView reloadData];
+}
+
+
+#pragma mark - Load Data From User Defaults
 
 -(void) loadFromUserDefaults
 {
     self.numbersFromUserDefaults = [self.appDelegate phoneNumbersForKey:self.title];
     NSLog(@"self.title = %@",self.title);
+}
+
+-(void) deleteNumberAtIndex:(NSInteger)index
+{
+    self.numbersFromUserDefaults = [self.appDelegate phoneNumbersForKey:self.title];
+    NSMutableArray *myNumbers = [[NSMutableArray alloc] init];
+    myNumbers = [self.numbersFromUserDefaults mutableCopy];
+    [myNumbers removeObjectAtIndex:index];
+    self.numbersFromUserDefaults = [myNumbers copy];
+    [self.appDelegate setPhoneNumbers:self.numbersFromUserDefaults ForKey:self.title];
 }
 
 
@@ -80,14 +139,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //NSLog(@"self.numbersFromUserDefaults.count = %lu", (unsigned long)self.numbersFromUserDefaults.count);
-    return self.numbersFromUserDefaults.count;
+    //NSLog(@"self.phoneNumbers.count = %li",self.phoneNumbers.count);
+    return self.phoneNumbers.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PhoneNumbersCell *phoneNumbersCell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass ([PhoneNumbersCell class]) forIndexPath:indexPath];
-    phoneNumbersCell.phoneNumberLabel.text = self.numbersFromUserDefaults[indexPath.row];
+    PhoneNumber *myNumber = self.phoneNumbers[indexPath.row];
+    phoneNumbersCell.phoneNumberLabel.text = myNumber.number;
     return phoneNumbersCell;
 }
 
@@ -97,11 +157,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self performSelector:@selector(deselectRowAtIndexPath:) withObject:indexPath afterDelay:0.1f];
-    
-    [self deleteNumberAtIndex:indexPath.row];
-    [self.phoneNumbersTableView reloadData];    
-    
+    PhoneNumbersCell *phoneNumbersCell = (PhoneNumbersCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [self deleteNumber:phoneNumbersCell.phoneNumberLabel.text];
+    //NSLog(@"номер тел %@", phoneNumbersCell.phoneNumberLabel.text);
 }
+
 
 -(void)deselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -118,6 +178,7 @@
         {
             AddPhoneNumberVC *addPhoneNumberVC = (AddPhoneNumberVC *)segue.destinationViewController;
             addPhoneNumberVC.title = self.title;
+            addPhoneNumberVC.currentContact = self.contact; // ~~~~~ contact ~~~~~~>
             NSLog(@"addPhoneNumberVC.title = %@", addPhoneNumberVC.title);
         }
     }
@@ -126,24 +187,18 @@
 -(void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self loadFromUserDefaults];
+    self.contact = [self gettingContactWithName:self.currentContact.name age:self.currentContact.age];
+    self.phoneNumbers = [self gettingPhoneNumbersOfContact:self.contact];
+    [self.phoneNumbersTableView reloadData];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.phoneNumbersTableView];
-    
     [self.phoneNumbersTableView registerClass:[PhoneNumbersCell class]
            forCellReuseIdentifier:NSStringFromClass([PhoneNumbersCell class])];
-    
-    //[self loadFromUserDefaults];
-    
-    self.phoneNumbersTableView.dataSource = self;
-    self.phoneNumbersTableView.delegate = self;
-    
 }
 
 @end

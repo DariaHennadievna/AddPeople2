@@ -9,7 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import "AppDelegate.h"
+#import "PhoneNumbersVC.h"
+#import "PhoneNumber.h"
+#import "MyContact.h"
+#import "PhoneNumber.h"
+#import "MyContact+Creating.h"
+#import "PhoneNumber+Creating.h"
 
 @interface AddPhoneNumberVC : UIViewController
+
+@property (nonatomic) MyContact *currentContact;
 
 @end

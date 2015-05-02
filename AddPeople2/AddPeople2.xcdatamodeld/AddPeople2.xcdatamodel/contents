@@ -3,8 +3,14 @@
     <entity name="MyContact" representedClassName="MyContact" syncable="YES">
         <attribute name="age" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="phoneNumbers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PhoneNumber" inverseName="owner" inverseEntity="PhoneNumber" syncable="YES"/>
+    </entity>
+    <entity name="PhoneNumber" representedClassName="PhoneNumber" syncable="YES">
+        <attribute name="number" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MyContact" inverseName="phoneNumbers" inverseEntity="MyContact" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MyContact" positionX="-45" positionY="0" width="128" height="75"/>
+        <element name="MyContact" positionX="-245" positionY="-63" width="128" height="88"/>
+        <element name="PhoneNumber" positionX="-18" positionY="-51" width="128" height="73"/>
     </elements>
 </model>

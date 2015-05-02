@@ -11,10 +11,25 @@
 #import "PhoneNumbersCell.h"
 #import "AddPhoneNumberVC.h"
 #import "AppDelegate.h"
+#import "MyContact.h"
+#import "PhoneNumber.h"
+#import "MyContact+Creating.h"
+#import "PhoneNumber+Creating.h"
 
 @interface PhoneNumbersVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic) MyContact *currentContact;
+@property (nonatomic) NSMutableArray *phoneNumbers;
+
 -(void) loadFromUserDefaults;
 -(void) deleteNumberAtIndex:(NSInteger)index;
+
+#pragma mark - Core Data
+
+-(MyContact *)gettingContactWithName:(NSString *)name age:(NSString *)age;
+-(NSMutableArray *)gettingPhoneNumbersOfContact:(MyContact *)myContact;
+-(PhoneNumber *)gettingPhoneNumberWith:(NSString *)phoneNumber;
+-(void)deleteNumber:(NSString *)phoneNumber;
+
 
 @end
